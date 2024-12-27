@@ -4,6 +4,8 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/pointing.h>
+
 
 // Home row mods macro
 #define HRML(k1,k2,k3,k4) &ht LGUI k1  &ht LALT k2  &ht LCTRL k3  &ht LSHIFT k4
@@ -16,7 +18,8 @@
 #define NUM 3
 #define NAV 4
 #define MED 5
-#define BBQ 6
+#define PDE 6
+#define BBQ 7
 
 #define BT_1 &bt BT_SEL 1
 #define BT_2 &bt BT_SEL 2
@@ -28,12 +31,17 @@
 #define MVOLU &kp C_VOL_UP
 #define MVOLD &kp C_VOL_DN
 
+#define PDE_L &mmv MOVE_LEFT
+#define PDE_R &mmv MOVE_RIGHT
+#define PDE_U &mmv MOVE_UP
+#define PDE_D &mmv MOVE_DOWN
+
 / {
     combos {
         compatible = "zmk,combos";
         combo_tab {
             timeout-ms = <50>;
-            key-positions = <30 31>;
+            key-positions = <31 32>;
             bindings = <&kp TAB>;
         };
         combo_del {
@@ -63,6 +71,8 @@
         tri_layer {
             if-layers = <MED NUM>;
             then-layer = <BBQ>;
+            if-layers = <MED NAV>;
+            then-layer = <PDE>;
         };
     };
 
@@ -155,7 +165,21 @@
             >;
         };
 
-        barbecue_layer { // Layer 6 - BBQ
+        pointing_device_emulation_layer { // Layer 6 - PDE
+            bindings = <
+        //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
+            &trans     &trans     &trans     &trans     &trans         &trans     &trans     &trans     &trans     &trans
+        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+            &trans     &trans     &trans     &trans     &trans         PDE_L      PDE_D      PDE_U      PDE_R      &trans
+        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+            &trans     &trans     &trans     &trans     &trans         &trans     &trans     &trans     &trans     &trans
+        //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
+                                             &trans     &trans         &mkp MB1   &mkp MB2
+        //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
+            >;
+        };
+
+        barbecue_layer { // Layer 7 - BBQ
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
             &trans     &trans     &tog COL   &trans     &trans         &trans     &trans     &tog COL   &trans     &trans
