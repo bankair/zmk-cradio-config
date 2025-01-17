@@ -68,9 +68,11 @@
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
-        tri_layer {
+        bbq_layer {
             if-layers = <MED NUM>;
             then-layer = <BBQ>;
+        };
+        pde_layer {
             if-layers = <MED NAV>;
             then-layer = <PDE>;
         };
